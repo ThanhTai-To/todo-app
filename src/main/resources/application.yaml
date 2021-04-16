@@ -1,0 +1,120 @@
+#spring.profiles.active=dev
+spring:
+  application:
+    name: Todo App
+  main:
+    banner-mode: off
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: todoapp
+
+server:
+  port: 8081
+
+#spring.cloud.stream:
+#  function:
+#    definition: todoConsumer
+#  bindings:
+#    todoConsumer-in-0:
+#      group: ramdomNumber
+#      destination: numbers
+#      contentType: application/json
+#    todoProducer-out-0:
+#      destination: numbers
+#      consumer:
+#        partitioned: true
+#      producer:
+#        use-native-encoding: true
+#        partition-key-expression: headers['kafka_messageKey']
+#        partition-count: 1
+#      contentType: application/json
+#
+#  kafka:
+#    bindings:
+#      todoProducer-out-0:
+#        producer:
+#          configuration:
+#            "key.serializer": "org.apache.kafka.common.serialization.IntegerSerializer"
+#            "value.serializer": "org.apache.kafka.common.serialization.StringSerializer"
+#    binder:
+#      auto-create-topics: true
+#      brokers:
+#        - localhost:9092
+#
+#  cloud:
+#    stream:
+#      kafka:
+#        binder:
+#          brokers: ${KAFKA_BROKERS:localhost}
+#
+#      bindings:
+#        input:
+#          destination: todo.topic
+#          content-type: application/text
+#          group: todoConsumer
+#          binder: kafka
+#        output:
+#          destination: todo.topic
+#          binder: kafka
+#        customInput:
+#          destination: todo.custom.topic
+#          content-type: application/text
+#          group: todoCustomConsumer
+#          binder: kafka
+#        customOutput:
+#          destination: todo.custom.topic
+#          binder: kafka
+#        customInput2:
+#          destination: todo.custom2.topic
+#          content-type: application/text
+#          group: todoCustom2Consumer
+#          binder: kafka
+#        customOutput2:
+#          destination: todo.custom2.topic
+#          binder: kafka
+#      binders:
+#        kafka1:
+#          type: kafka
+#          environment:
+#            spring:
+#              cloud:
+#                stream:
+#                  kafka:
+#                    binder:
+#                      brokers: ${KAFKA_BROKERS:localhost}
+#
+#  kafka:
+#    admin:
+#      fail-fast: true
+#      properties:
+#        request.timeout.ms: 10000  # time to wait for broker to connect if your see this error [AdminClient] Broker may not be available
+#        retries: 0  # how many times to retry
+#
+#    listener:
+#      poll-timeout: 1000
+
+
+logging:
+  file:
+    name: application.log
+  level:
+    com:
+      pycogroup:
+        todoapp:
+          controller:
+            INFO
+          service:
+            INFO
+
+
+
+
+
+
+#debug=true
+#logging.level.root= DEBUG
+#logging.level.org.springframework= WARN
+#logging.level.com.pycogroup.todoapp.controller= INFO
+

@@ -1,0 +1,168 @@
+openapi: 3.0.0
+info:
+  description: API specification for todo app
+  version: v3
+  title: Todo app API
+servers:
+  - url: http://localhost:8081/
+paths:
+  /api/todos:
+    get:
+      tags:
+        - getTodoList
+      summary: Get all todos
+      operationId: getTodoList
+      responses:
+        '200':
+          description: Get todo list successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoListResponse'
+    post:
+      tags:
+        - createTodo
+      summary: Create Todo
+      operationId: createTodo
+      requestBody:
+        description: Create todo
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/CreateTodoRequest'
+      responses:
+        '200':
+          description: Create article successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+  /api/todos/{todoId}:
+    put:
+      tags:
+        - updateTodo
+      summary: Update Todo
+      operationId: updateTodo
+      parameters:
+        - name: todoId
+          in: path
+          description: Todo ID
+          required: true
+          schema:
+            type: string
+            format: string
+      requestBody:
+        description: Update todo
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/UpdateTodoRequest'
+      responses:
+        '200':
+          description: Update todo successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+    delete:
+      tags:
+        - deleteTodo
+      summary: Delete Todo
+      operationId: deleteTodo
+      parameters:
+        - name: todoId
+          in: path
+          description: Todo ID
+          required: true
+          schema:
+            type: string
+            format: string
+      responses:
+        '200':
+          description: Delete todo successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectCreationSuccessResponse'
+
+
+
+components:
+  schemas:
+    TodoListResponse:
+      type: object
+      properties:
+        todos:
+          type: array
+          items:
+            $ref: '#/components/schemas/TodoResponseModel'
+    TodoResponseModel:
+      type: object
+      properties:
+        taskId:
+          type: string
+        task:
+          type: string
+        userId:
+          type: string
+        userName:
+          type: string
+        completed:
+          type: boolean
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+
+    CreateTodoRequest:
+      type: object
+      properties:
+        task:
+          type: string
+
+    UpdateTodoRequest:
+      type: object
+      properties:
+        task:
+          type: string
+        completed:
+          type: boolean
+
+    ObjectCreationSuccessResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        responseCode:
+          type: integer
+
+    ApiError:
+      type: object
+      properties:
+        faults:
+          type: array
+          items:
+            $ref: "#/components/schemas/Fault"
+        responseCode:
+          type: integer
+    Fault:
+      type: object
+      properties:
+        internalMessage:
+          type: string
+        code:
+          type: integer
+        userMessage:
+          type: string
+
+  examples:
+    InternalServerError:
+      value:
+        responseCode: 500
+        faults:
+          -:
+          userMessage: There're some error when processing this request. Please retry again or contact the site administrator for supporting
+          internalMessage: Internal server error
+          code: 1000
+          responseCode: 500
